@@ -1,0 +1,57 @@
+#version 460 core
+#extension GL_EXT_shader_explicit_arithmetic_types_float32 : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int8 : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int32 : require
+
+#include "../bounding_sphere.glsl"
+#include "../mesh.glsl"
+#include "draw_cmd.glsl"
+#include "mesh_instance.glsl"
+#include "model_instance.glsl"
+
+layout(local_size_x_id = 0, local_size_y = 1, local_size_z = 1) in;
+
+layout(push_constant) uniform PushConstants {
+    uint32_t mesh_instance_count;
+} push_const;
+
+layout(binding = 0) restrict writeonly buffer DrawCommandBuffer{
+    DrawCommand[] draw_cmd_buf;
+};
+
+layout(binding = 1) restrict writeonly buffer DrawInstanceBuffer{
+    uint32_t[] draw_instance_buf;
+};
+
+layout(binding = 2) restrict readonly buffer ModelInstanceBuffer {
+    ModelInstance[] model_instance_buf;
+};
+
+layout(binding = 3) restrict readonly buffer MeshInstanceBuffer {
+    MeshInstance[] mesh_instance_buf;
+};
+
+layout(binding = 4) restrict readonly buffer MeshInstanceOffsetBuffer {
+    uint32_t[] mesh_instance_offset_buf;
+};
+
+layout(binding = 5) restrict readonly buffer BoundingSphereBuffer {
+    BoundingSphere[] bounding_sphere_buf;
+};
+
+void main() {
+    if (gl_GlobalInvocationID.x >= push_const.mesh_instance_count) {
+        return;
+    }
+
+    MeshInstance mesh_instance = mesh_instance_buf[gl_GlobalInvocationID.x];
+    BoundingSphere bounding_sphere = bounding_sphere_buf[mesh_instance.mesh_idx];
+    ModelInstance model_instance = model_instance_buf[mesh_instance.model_instance_idx];
+
+    vec3 center = bounding_sphere.center + model_instance.translation;
+    // TODO: Check frustum visibilty!
+
+    uint instance_idx = atomicAdd(draw_cmd_buf[mesh_instance.mesh_idx].instance_count, 1);
+    uint mesh_instance_offset = mesh_instance_offset_buf[mesh_instance.mesh_idx];
+    draw_instance_buf[mesh_instance_offset + instance_idx] = gl_GlobalInvocationID.x;
+}

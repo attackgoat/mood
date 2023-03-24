@@ -1,0 +1,42 @@
+#version 460 core
+#extension GL_EXT_shader_explicit_arithmetic_types_float32 : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int32 : require
+#extension GL_KHR_shader_subgroup_arithmetic : require
+
+#include "../math.glsl"
+
+layout(local_size_x_id = 0, local_size_y = 1, local_size_z = 1) in;
+
+layout(push_constant) uniform PushConstants {
+    layout(offset = 0) uint32_t vertex_len;
+    layout(offset = 4) uint32_t vertex_offset;
+    layout(offset = 8) uint32_t vertex_stride;
+} push_const;
+
+layout(binding = 0) restrict readonly buffer VertexBuffer {
+    float32_t[] vertex_buf;
+};
+
+layout(binding = 1) uniform AvergeUniform {
+    f32vec3 avg_position;
+};
+
+layout(binding = 2) restrict writeonly buffer WorkgroupBuffer {
+    float32_t[] workgroup_buf;
+};
+
+void main() {
+    if (gl_GlobalInvocationID.x >= push_const.vertex_len) {
+        return;
+    }
+
+    uint offset = gl_GlobalInvocationID.x * push_const.vertex_stride + push_const.vertex_offset;
+    f32vec3 position = f32vec3(vertex_buf[offset],
+                               vertex_buf[offset + 1],
+                               vertex_buf[offset + 2]);
+    float32_t dist_sq = subgroupMax(distance_sq(position, avg_position));
+
+    if (subgroupElect()) {
+        workgroup_buf[gl_WorkGroupID.x] = dist_sq;
+    }
+}

@@ -1,0 +1,9 @@
+[content]
+compression = 'snap'
+
+[[content.group]]
+assets = [
+    'cursor/*.png',
+    'icon/*.toml',
+    'shader/**/*.spirv',
+]

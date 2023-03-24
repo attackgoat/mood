@@ -1,0 +1,16 @@
+/.vscode
+/target
+
+**/*.blend1
+**/*.fnt
+**/*.glb
+**/*.spirv
+
+art/font/*.png
+art/scene/*.toml
+
+.timestamps
+build.log
+Cargo.lock
+
+**/.DS_Store

@@ -1,0 +1,11 @@
+[content]
+compression = "snap"
+
+[[content.group]]
+assets = [
+    "bitmap/*.png",
+    "font/kenney_*.toml",
+    "material/*.toml",
+    "scene/*.toml",
+    "sound/**/*.ogg",
+]

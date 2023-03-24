@@ -1,0 +1,4 @@
+[[font]]
+src = 'kenney_mini_square_mono.ttf'
+size = 32
+output = 'kenney_mini_square_mono.fnt'
