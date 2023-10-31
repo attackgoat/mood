@@ -272,7 +272,7 @@ impl BoundingSpherePipeline {
         render_graph.copy_buffer_region(
             avg_buf,
             bounding_sphere_buf,
-            &vk::BufferCopy {
+            vk::BufferCopy {
                 src_offset: 0,
                 dst_offset: bounding_sphere_offset,
                 size: size_of::<Vec3>() as _,
@@ -325,7 +325,7 @@ impl BoundingSpherePipeline {
         render_graph.copy_buffer_region(
             dist_sq_buf,
             bounding_sphere_buf,
-            &vk::BufferCopy {
+            vk::BufferCopy {
                 src_offset: 0,
                 dst_offset: bounding_sphere_offset + size_of::<Vec3>() as vk::DeviceSize,
                 size: size_of::<f32>() as _,

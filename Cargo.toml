@@ -24,7 +24,7 @@ clap = { version = "4.0", features = ["derive"] }
 crossbeam-channel = "0.5"
 derive_builder = "0.12"
 directories = "4.0"
-glam = { version = "0.23", features = ["bytemuck"] }
+glam = { version = "0.24", features = ["bytemuck"] }
 kira = "0.7"
 pak = { path = "../pak" }
 parking_lot = "0.12"

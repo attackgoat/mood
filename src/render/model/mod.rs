@@ -307,7 +307,7 @@ impl ModelBuffer {
         render_graph.copy_buffer_region(
             temp_buf,
             material_buf,
-            &vk::BufferCopy {
+            vk::BufferCopy {
                 src_offset: 0,
                 dst_offset: MaterialData::SIZE * self.material_count as vk::DeviceSize,
                 size: MaterialData::SIZE,
@@ -356,7 +356,7 @@ impl ModelBuffer {
             debug_assert!(self.geometry_len % size_of::<u32>() as vk::DeviceSize == 0);
 
             let base_lod = &lods[0];
-            let index_buf = base_lod.index_buffer();
+            let index_buf = base_lod.as_u32();
             let index_count = index_buf.len() as u32;
 
             debug_assert!(index_count % 3 == 0);
@@ -438,7 +438,7 @@ impl ModelBuffer {
             render_graph.copy_buffer_region(
                 temp_buf,
                 geometry_buf,
-                &vk::BufferCopy {
+                vk::BufferCopy {
                     src_offset: 0,
                     dst_offset: self.geometry_len,
                     size: mesh_offset,
@@ -447,7 +447,7 @@ impl ModelBuffer {
             render_graph.copy_buffer_region(
                 temp_buf,
                 mesh_buf,
-                &vk::BufferCopy {
+                vk::BufferCopy {
                     src_offset: mesh_offset,
                     dst_offset: dst_mesh_offset,
                     size: Mesh::SIZE,

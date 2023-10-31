@@ -203,7 +203,7 @@ impl BitmapBuffer {
                 render_graph.copy_image_region(
                     atlas_image,
                     framebuffer_image,
-                    &vk::ImageCopy {
+                    vk::ImageCopy {
                         src_subresource: Self::IMAGE_SUBRESOURCE_LAYERS,
                         src_offset: vk::Offset3D {
                             x: atlas_rect.x,
@@ -228,7 +228,7 @@ impl BitmapBuffer {
                     atlas_image,
                     framebuffer_image,
                     vk::Filter::NEAREST,
-                    &vk::ImageBlit {
+                    vk::ImageBlit {
                         src_subresource: Self::IMAGE_SUBRESOURCE_LAYERS,
                         src_offsets: [
                             vk::Offset3D {
@@ -322,7 +322,7 @@ impl BitmapBuffer {
             render_graph.copy_image_region(
                 image_node,
                 atlas_node,
-                &vk::ImageCopy {
+                vk::ImageCopy {
                     src_subresource: Self::IMAGE_SUBRESOURCE_LAYERS,
                     src_offset: vk::Offset3D { x: 0, y: 0, z: 0 },
                     dst_subresource: Self::IMAGE_SUBRESOURCE_LAYERS,
