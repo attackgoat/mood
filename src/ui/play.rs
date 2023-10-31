@@ -23,7 +23,7 @@ use {
 
 fn read_geometry(geom: &SceneBufGeometry) -> (Vec<u32>, Vec<Vec3>) {
     let transform = Mat4::from_rotation_translation(geom.rotation(), geom.position());
-    let indices = geom.index_buf().index_buffer();
+    let indices = geom.index_buf().as_u32();
     let vertex_data = geom.vertex_data();
     let vertex_count = vertex_data.len() / 12;
     let mut vertices = Vec::with_capacity(vertex_count);

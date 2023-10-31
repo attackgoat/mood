@@ -393,7 +393,7 @@ impl Raster {
             render_graph.copy_buffer_region(
                 temp_buf,
                 mesh_instance_buf,
-                &vk::BufferCopy {
+                vk::BufferCopy {
                     src_offset: 0,
                     dst_offset: 0,
                     size: temp_len,
@@ -473,7 +473,7 @@ impl Raster {
         render_graph.copy_buffer_region(
             temp_buf,
             mesh_instance_count_buf,
-            &vk::BufferCopy {
+            vk::BufferCopy {
                 src_offset: 0,
                 dst_offset: 0,
                 size: temp_buf_len,
@@ -576,7 +576,7 @@ impl Raster {
         render_graph.copy_buffer_region(
             temp_buf,
             model_instance_buf,
-            &vk::BufferCopy {
+            vk::BufferCopy {
                 src_offset: 0,
                 dst_offset: 0,
                 size: temp_buf_len,
