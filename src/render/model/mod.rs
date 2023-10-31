@@ -76,7 +76,7 @@ impl MaterialData {
 }
 
 bitflags! {
-    #[derive(Pod, Zeroable)]
+    #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Pod, Zeroable)]
     #[repr(transparent)]
     pub struct MaterialFlags: u8 {
         const EMISSIVE = 0b0000_0001;
@@ -100,7 +100,7 @@ impl Mesh {
 }
 
 bitflags! {
-    #[derive(Pod, Zeroable)]
+    #[derive(Clone, Copy, Debug, Eq, PartialEq, Pod, Zeroable)]
     #[repr(transparent)]
     pub struct MeshFlags: u8 {
         const INDEX_TYPE_UINT32 = 0b0000_0001;
